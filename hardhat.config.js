@@ -1,5 +1,8 @@
 require("dotenv").config();  //dotenvを読み込む
 require("@nomiclabs/hardhat-waffle");
+require("@nomiclabs/hardhat-etherscan");
+const { POLYGON_MUMBAI_RPC_PROVIDER, PRIVATE_KEY, POLYGONSCAN_API_KEY,RINKEBY_API_ETHERSCAN,RINKEBY_RPC_PROVIDER } = process.env;
+
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -19,12 +22,24 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  */
 module.exports = {
   solidity: "0.8.4",
+  defaultNetwork: "rinkeby",
     //mumbaiを追加
     networks: {
       mumbai: {
-        url: process.env.API_URL,
-        accounts: [process.env.PRIVATE_KEY],
+        url: POLYGON_MUMBAI_RPC_PROVIDER,
+        accounts: [PRIVATE_KEY],
       },
-    },  
+      rinkeby: {
+        url: RINKEBY_RPC_PROVIDER,
+        accounts: [PRIVATE_KEY],
+      }
+    }, 
+    etherscan: {
+      apiKey:{
+      // polygon
+      polygonMumbai: POLYGONSCAN_API_KEY,
+      rinkeby: RINKEBY_API_ETHERSCAN
+      }
+    } 
 };
 
